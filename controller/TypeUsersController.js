@@ -11,15 +11,11 @@ export const getTypeUsers = async (req, res) => {
 
 export const createTypeUsers = async (req, res) => {
   try {
-    // Get type input
     const { type } = req.body;
-    // Validate type input
     if (!type) {
       res.status(400).json({ message: "type is required" });
     }
-    // Create type in our database
     const types = await TypeUsersModel.create(req.body);
-
     res.status(201).json({ message: "create", types });
   } catch (error) {
     res.status(500).json({ error: error.message });

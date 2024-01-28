@@ -20,4 +20,3 @@ export const TypeUsersModel = sequelize.define("typeusers",{
     timestamps:false
 }
 )
-//await TypeUsersModel.sync({ force: true });

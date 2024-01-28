@@ -31,6 +31,6 @@ export const UserModel = sequelize.define(
     timestamps: false,
   }
 );
-
 TypeUsersModel.hasMany(UserModel, { foreignKey: "typeusers_id" });
 UserModel.belongsTo(TypeUsersModel, { foreignKey: "typeusers_id" });
+

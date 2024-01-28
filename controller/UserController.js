@@ -2,8 +2,6 @@ import { UserModel } from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { TOKEN_KEY } from "../config/config.js";
-
-
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll({
@@ -105,22 +103,17 @@ export const deleteUsers = async (req, res) => {
 };
 export const login = async (req, res) => {
   try {
-    // Get user input
     const { email, password } = req.body;
-    // Validate user input
     if (!(email && password)) {
       res.status(400).json({message:"All input is required"});
     }
-    // Validate if user exist in our database
     const user = await UserModel.findOne({
       where: { email: email.toLowerCase() },
     });
     if (user && (await bcrypt.compare(password, user.password))) {
-      // Create token
       const token = jwt.sign({ user_id: user.id, email }, TOKEN_KEY, {
         expiresIn: "1h",
       });
-      // user
       let dataUser={
           id:user.id,
           user:user.user,
@@ -133,7 +126,6 @@ export const login = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-  // Our register logic ends here
 };
 export const logout = async (req, res)=>{
 
@@ -144,7 +136,6 @@ export const refresh = (req, res) => {
 	if (!token) {
 		return res.status(401).end()
 	}
-
 	var payload
 	try {
 		payload = jwt.verify(token, 'secret')
@@ -154,23 +145,14 @@ export const refresh = (req, res) => {
 		}
 		return res.status(400).end()
 	}
-	// (END) The code uptil this point is the same as the first part of the `welcome` route
-
-	// We ensure that a new token is not issued until enough time has elapsed
-	// In this case, a new token will only be issued if the old token is within
-	// 30 seconds of expiry. Otherwise, return a bad request status
 	const nowUnixSeconds = Math.round(Number(new Date()) / 1000)
 	if (payload.exp - nowUnixSeconds > 30) {
 		return res.status(400).end()
 	}
-
-	// Now, create a new token for the current user, with a renewed expiration time
 	const newToken = jwt.sign({ username: payload.username }, jwtKey, {
 		algorithm: "HS256",
 		expiresIn: jwtExpirySeconds,
 	})
-
-	// Set the new token as the users `token` cookie
 	res.cookie("token", newToken, { maxAge: jwtExpirySeconds * 1000 })
 	res.end()
 }
