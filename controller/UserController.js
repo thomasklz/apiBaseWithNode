@@ -2,6 +2,7 @@ import { UserModel } from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { TOKEN_KEY } from "../config/config.js";
+
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll({
@@ -10,7 +11,7 @@ export const getUsers = async (req, res) => {
   
     res.status(200).json({users});
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 export const createUsers = async (req, res) => {
@@ -50,7 +51,7 @@ export const updateUsers = async (req, res) => {
   if (!(user)) {
     res.status(400).json({ message: "user is required" });
   }
-  const userD= await UserModel.findOne({where:{id:req.params.id}});
+  const userD = await UserModel.findOne({where:{id:req.params.id}});
   if(userD){
     userD.set({...userD,user:user});
       await userD.save();
@@ -68,7 +69,7 @@ export const updateUsersEmail = async (req, res) => {
   if (oldUser) {
     return res.status(409).json("email already exist");
   }
-  const userD= await UserModel.findOne({where:{id:req.params.id}});
+  const userD = await UserModel.findOne({where:{id:req.params.id}});
   if(userD){
     userD.set({...userD,email:email});
       await userD.save();
@@ -82,7 +83,7 @@ export const updateUsersPassword = async (req, res) => {
   if (!(password)) {
     res.status(400).json({ message: "password is required" });
   }
-  const userD= await UserModel.findOne({where:{id:req.params.id}});
+  const userD = await UserModel.findOne({where:{id:req.params.id}});
   if(userD){
     userD.set({...userD,password:password});
       await userD.save();
