@@ -3,7 +3,7 @@ import { login,updateUsersPassword, updateUsersEmail, getUsers,createUsers,updat
 import  {verifyToken}  from '../middleware/auth.js';
 const rotuer = express.Router();
 rotuer.get('/user',verifyToken, getUsers);
-rotuer.post('/user', createUsers);
+rotuer.post('/register', createUsers);
 rotuer.put('/user/:id',verifyToken, updateUsers);
 rotuer.delete('/user/:id', verifyToken, deleteUsers);
 rotuer.post('/login', login);
