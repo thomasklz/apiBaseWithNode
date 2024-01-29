@@ -5,6 +5,8 @@ import { PORT } from './config/config.js';
 import rotuerTypeUsers from './router/TypeUsersRouter.js';
 import  { RouterUsuer } from './router/UserRouter.js';
 import { sequelize } from "./db/conexion.js";
+import { swaggerDocs } from './swagger.js';
+
 
 const _PORT = PORT || 3000;
 const app = express();
@@ -21,6 +23,8 @@ const main = async () => {
         await sequelize.sync({ alter: false })
         app.listen(_PORT, () => {
             console.log(`Servidor corriendo en el puerto => ${_PORT}`);
+            /// *** ADD ***
+            swaggerDocs(app, PORT);
         });
     } catch (error) {
         console.log(`Error ${error}`);
