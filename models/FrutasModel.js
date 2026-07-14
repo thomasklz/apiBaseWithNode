@@ -1,20 +1,24 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db/conexion.js";
 
-export const TypeUsersModel = sequelize.define("typeusers",{
+export const FrutasModel = sequelize.define("frutas",{
     id:{
         autoIncrement:true,
         primaryKey:true,
         type: DataTypes.INTEGER,
     },
-    type:{
+    nombre:{
         type:DataTypes.STRING,
         allowNull:false,
     },
-    state: {
-        type: DataTypes.BOOLEAN,
+    color: {
+        type: DataTypes.STRING,
         defaultValue: true,
       },
+     estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },     
 },
 {
     timestamps:false
